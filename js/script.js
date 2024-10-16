@@ -43,7 +43,7 @@ function filtreMaison(maison) {
         .then(reponse => reponse.json())
         .then(persos => {
             const listePersos = persos.filter(perso => perso.house === maison);
-            afficherPersos(listePersos);
+            afficherPersos(listePersos.slice(0, 10));
         })
         .catch(error => console.error('Error filtering characters by house:', error));
 }
