@@ -1,31 +1,32 @@
-// script.js
-const charactersContainer = document.querySelector('.characters');
+document.addEventListener('DOMContentLoaded', () => {
+	RecupererJson();
+});
 
-const fetchCharacters = async () => {
-  try {
-    const response = await fetch('https://hp-api.onrender.com/api/characters');
-    const characters = await response.json();
-    
-    // Limiter aux 12 premiers personnages
-    const limitedCharacters = characters.slice(0, 12);
-    
-    // Nettoyer l'affichage des personnages statiques
-    charactersContainer.innerHTML = '';
-    
-    // Insérer les personnages dynamiques
-    limitedCharacters.forEach(character => {
-      const characterElement = `
-        <figure class="perso__left">
-          <img src="${character.image}" alt="${character.name}" />
-          <figcaption>${character.name}</figcaption>
-        </figure>
+async function RecupererJson() {
+	const reponse = await fetch('https://hp-api.onrender.com/api/characters');
+	const persos = await reponse.json();
+	afficherPersos(persos.slice(0, 10));
+}
+
+function afficherPersos(persos) {
+	const htmlPersos = document.querySelector('.characters');
+	htmlPersos.innerHTML = '';
+	persos.forEach(perso => {
+		const html = `
+          <figure class="${getCouleur(perso.house)}">
+              <img src="${perso.image}" alt="${perso.name}" />
+              <figcaption>${perso.name}</figcaption>
+          </figure>
       `;
-      charactersContainer.innerHTML += characterElement;
-    });
-  } catch (error) {
-    console.error('Erreur lors de la récupération des personnages :', error);
-  }
-};
+		htmlPersos.insertAdjacentHTML('beforeend', html);
+	});
+}
 
-// Appeler la fonction pour charger les personnages au chargement de la page
-fetchCharacters();
+function getCouleur(maison) {
+	switch (maison) {
+		case 'Gryffindor': return 'rouge';
+		case 'Hufflepuff': return 'jaune';
+		case 'Ravenclaw': return 'bleu';
+		case 'Slytherin': return 'vert';
+	}
+}
