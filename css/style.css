@@ -185,9 +185,6 @@ footer p {
   justify-content: space-around;
 }
 
-.page_perso .perso__right p.attr {
-  font-weight: bold;
-}
 
 .page_perso figure {
   width: 215px;
@@ -250,4 +247,20 @@ figure {
   flex-direction: column;
   justify-content: center;
   align-items: center;
+}
+
+.rouge:hover img {
+  border-color: red;
+}
+
+.jaune:hover img {
+  border-color: yellow;
+}
+
+.bleu:hover img {
+  border-color: blue;
+}
+
+.vert:hover img {
+  border-color: green;
 }
