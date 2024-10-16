@@ -4,8 +4,8 @@ document.addEventListener('DOMContentLoaded', () => {
 
 async function RecupererJson() {
 	const reponse = await fetch('https://hp-api.onrender.com/api/characters');
-	const persos = await reponse.json();
-	afficherPersos(persos.slice(0, 10));
+	const listePersos = await reponse.json();
+	afficherPersos(listePersos.slice(0, 10));
 }
 
 function afficherPersos(persos) {
@@ -29,4 +29,21 @@ function getCouleur(maison) {
 		case 'Ravenclaw': return 'bleu';
 		case 'Slytherin': return 'vert';
 	}
+}
+
+document.querySelectorAll('.houses img').forEach(image => {
+    image.addEventListener('click', () => {
+        const maison = image.alt;
+        filtreMaison(maison);
+    });
+});
+
+function filtreMaison(maison) {
+    fetch('https://hp-api.onrender.com/api/characters')
+        .then(reponse => reponse.json())
+        .then(persos => {
+            const listePersos = persos.filter(perso => perso.house === maison);
+            afficherPersos(listePersos);
+        })
+        .catch(error => console.error('Error filtering characters by house:', error));
 }
